@@ -8,7 +8,6 @@ app = Flask(__name__)
 model = tf.keras.models.load_model('model.h5')
 
 def preprocess_image(file):
-    # Read the image directly from the request
     img = cv2.imdecode(np.frombuffer(file.read(), np.uint8), cv2.IMREAD_COLOR)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     img = cv2.resize(img, (224, 224))
