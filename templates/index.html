@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pneumonia Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="file"] {
+            margin: 10px 0;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #predictionResult {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pneumonia Prediction</h1>
+        <input type="file" id="imageInput" accept="image/*">
+        <button onclick="performPrediction()">Predict</button>
+        <div id="predictionResult"></div>
+    </div>
+
+    <script>
+        function performPrediction() {
+            const imageInput = document.getElementById('imageInput');
+            const predictionResult = document.getElementById('predictionResult');
+        
+            const file = imageInput.files[0];
+            if (file) {
+                const formData = new FormData();
+                formData.append('file', file);
+        
+                const predictionEndpoint = '/predict';
+        
+                fetch(predictionEndpoint, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    predictionResult.innerHTML = `Prediction: ${data.prediction}`;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    predictionResult.innerHTML = 'Error occurred during prediction.';
+                });
+            } else {
+                predictionResult.innerHTML = 'Please select an image.';
+            }
+        }
+        
+    </script>
+</body>
+</html>
