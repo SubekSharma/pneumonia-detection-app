@@ -28,12 +28,6 @@ def main():
 
     uploaded_file = st.file_uploader("Upload an image...", type="jpg")
 
-    # Example instructions
-    st.markdown("""
-        Example Instructions:
-        - Upload a chest X-ray image in JPG format.
-        - The app will predict whether the image is normal or pneumonia.
-    """)
 
 
     if uploaded_file is not None:
