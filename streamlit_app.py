@@ -12,13 +12,15 @@ img_size = (224, 224)
 def preprocess_image(img):
     img = image.load_img(img, target_size=img_size)
     img_array = image.img_to_array(img)
+    img_array = img_array / 255
     img_array = np.expand_dims(img_array, axis=0)
     return img_array
 
 # Function to make predictions
 def predict_image(img):
     img_array = preprocess_image(img)
-    prediction = model.predict(img_array)[0][0]  # Single output value
+    prediction = model.predict(img_array)
+    prediction = np.squeeze(prediction, axis=0)
 
     return prediction
 
@@ -28,7 +30,12 @@ def main():
 
     uploaded_file = st.file_uploader("Upload an image...", type="jpg")
 
-
+    # Example instructions
+    st.markdown("""
+        Example Instructions:
+        - Upload a chest X-ray image in JPG format.
+        - The app will predict whether the image is normal or pneumonia.
+    """)
 
     if uploaded_file is not None:
         st.image(uploaded_file, caption="Uploaded Image.", use_column_width=True)
@@ -47,12 +54,6 @@ def main():
         st.write("**Confidence:**")
         st.write(f"{prediction*100:.2f}%")
 
-# Example instructions
-st.markdown("""
-    Example Instructions:
-    - Upload a chest X-ray image in JPG format.
-    - The app will predict whether the image is normal or pneumonia.
-""")
 
 if __name__ == "__main__":
     main()
