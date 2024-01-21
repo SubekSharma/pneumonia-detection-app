@@ -44,11 +44,11 @@ def main():
     normal_download = st.button("Download Normal Image")
 
     if pneumonic_download:
-        pneumonic_image_path = "path/to/your/pneumonic_image.jpg"  # Replace with actual path
+        pneumonic_image_path = "test-pneumonia_004.jpg"  # Replace with actual path
         display_image_with_download(pneumonic_image_path, "Pneumonic Image", "Pneumonic Image")
 
     if normal_download:
-        normal_image_path = "path/to/your/normal_image.jpg"  # Replace with actual path
+        normal_image_path = "test-normal_001.jpg"  # Replace with actual path
         display_image_with_download(normal_image_path, "Normal Image", "Normal Image")
 
     if uploaded_file is not None:
