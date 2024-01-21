@@ -23,6 +23,18 @@ def predict_image(img):
     prediction = np.squeeze(prediction, axis=0)
     return prediction
 
+# Function to display and provide a download link for an image
+def display_image_with_download(image_path, caption, download_text):
+    image = Image.open(image_path)
+    st.image(image, caption=caption, use_column_width=True)
+    
+    # Generate a download link
+    with open(image_path, 'rb') as f:
+        data = f.read()
+        base64_data = base64.b64encode(data).decode('utf-8')
+        href = f'<a href="data:application/octet-stream;base64,{base64_data}" download="{download_text}.jpg">Download {download_text}</a>'
+        st.markdown(href, unsafe_allow_html=True)
+
 # Streamlit app
 def main():
     st.title("Pneumonia Detection")
