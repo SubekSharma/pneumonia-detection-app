@@ -1,7 +1,6 @@
 import streamlit as st
 import tensorflow as tf
 from tensorflow.keras.preprocessing import image
-from tensorflow.keras.applications.mobilenet_v2 import preprocess_input, decode_predictions
 import numpy as np
 
 # Load the pre-trained model
@@ -14,7 +13,6 @@ def preprocess_image(img):
     img = image.load_img(img, target_size=img_size)
     img_array = image.img_to_array(img)
     img_array = np.expand_dims(img_array, axis=0)
-    img_array = preprocess_input(img_array)
     return img_array
 
 # Function to make predictions
@@ -25,7 +23,7 @@ def predict_image(img):
 
 # Streamlit app
 def main():
-    st.title("Pneumonia Classification App")
+    st.title("Pneumonia Detection")
 
     uploaded_file = st.file_uploader("Upload an image...", type="jpg")
 
