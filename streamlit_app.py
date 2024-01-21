@@ -1,54 +1,41 @@
 import streamlit as st
 import tensorflow as tf
 from tensorflow.keras.preprocessing import image
+from tensorflow.keras.applications.vgg16 import preprocess_input
 import numpy as np
 
-# Load the pre-trained model
-model = tf.keras.models.load_model('model.h5')  # Update with your actual model file
+# Load pretrained model
+model_path = "model.h5"
+model = tf.keras.models.load_model(model_path)
 
-# Define the target size for the model
-img_size = (224, 224)
+# Define the class labels
+class_labels = {0: 'Normal', 1: 'Pneumonia'}
 
-# Function to preprocess the image
-def preprocess_image(img):
-    img = image.load_img(img, target_size=img_size)
+# Create a Streamlit app
+st.title("Pneumonia Classification App")
+
+# Allow user to upload an image
+uploaded_file = st.file_uploader("Choose a chest X-ray image...", type="jpg")
+
+if uploaded_file is not None:
+    # Preprocess the image
+    img = image.load_img(uploaded_file, target_size=(224, 224))
     img_array = image.img_to_array(img)
     img_array = np.expand_dims(img_array, axis=0)
-    
-    return img_array
+    img_array = preprocess_input(img_array)
 
-# Function to make predictions
-def predict_image(img):
-    img_array = preprocess_image(img)
-    predictions = model.predict(img_array)
-    return predictions
+    # Make prediction
+    prediction = model.predict(img_array)
+    predicted_class = np.argmax(prediction)
 
-# Streamlit app
-def main():
-    st.title("Pneumonia Classification App")
-    st.sidebar.title("Upload Image")
+    # Display the result
+    st.image(img, caption="Uploaded Image", use_column_width=True)
+    st.write("Class:", class_labels[predicted_class])
+    st.write("Confidence:", prediction[0][predicted_class])
 
-    uploaded_file = st.sidebar.file_uploader("Choose an image...", type="jpg")
-
-    if uploaded_file is not None:
-        st.sidebar.image(uploaded_file, caption="Uploaded Image.", use_column_width=True)
-        st.sidebar.write("")
-        st.sidebar.write("Classifying...")
-
-        # Make predictions
-        predictions = predict_image(uploaded_file)
-
-        # Display the results
-        st.write(Predictions)
-        st.write("**Prediction:**")
-        if predictions > 0.5:
-            st.write("The image is classified as **Pneumonia**.")
-        else:
-            st.write("The image is classified as **Normal**.")
-
-        # st.write("**Confidence:**")
-        # st.write(f"Pneumonia: {predictions * 100:.2f}%")
-        # st.write(f"Normal: {predictions * 100:.2f}%")
-
-if __name__ == "__main__":
-    main()
+# Example instructions
+st.markdown("""
+    Example Instructions:
+    - Upload a chest X-ray image in JPG format.
+    - The app will predict whether the image is normal or pneumonia.
+""")
