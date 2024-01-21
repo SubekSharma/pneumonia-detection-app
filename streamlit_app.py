@@ -18,10 +18,10 @@ def preprocess_image(img):
 # Function to make predictions
 def predict_image(img):
     img_array = preprocess_image(img)
-    predictions = model.predict(img_array)
-    predictions = np.squeeze(predictions, axis=0)
+    prediction = model.predict(img_array)
+    prediction = np.squeeze(prediction, axis=0)
 
-    return predictions
+    return prediction
 
 # Streamlit app
 def main():
