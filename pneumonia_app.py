@@ -37,7 +37,7 @@ def main():
 
         # Display the results
         #st.write("**Prediction:**")
-        if prediction > 0.5:
+        if prediction > 0.8:
             st.write("The image is classified as **Pneumonia**.")
         else:
             st.write("The image is classified as **Normal**.")
