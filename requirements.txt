@@ -1,5 +1,4 @@
-Flask
-opencv-python
+streamlit
 tensorflow
-gunicorn
-numpy 
+opencv-python 
+numpy
