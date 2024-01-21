@@ -36,7 +36,7 @@ def main():
         prediction = predict_image(uploaded_file)
 
         # Display the results
-        st.write("**Prediction:**")
+        #st.write("**Prediction:**")
         if prediction > 0.5:
             st.write("The image is classified as **Pneumonia**.")
         else:
