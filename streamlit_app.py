@@ -37,20 +37,19 @@ def main():
         - Or, download sample images below and check the predictions.
     """)
 
-    # Provide links to download sample images
+   # Provide links to download sample images
     st.write("**Download Sample Images:**")
+    
     pneumonic_download = st.button("Download Pneumonic Image")
     normal_download = st.button("Download Normal Image")
 
     if pneumonic_download:
-        pneumonic_url = "https://example.com/pneumonic.jpg"  # Replace with actual URL
-        st.image(pneumonic_url, caption="Pneumonic Image", use_column_width=True, format="JPG")
-        st.markdown(f"**[Download Pneumonic Image]({pneumonic_url})**")
+        pneumonic_image_path = "path/to/your/pneumonic_image.jpg"  # Replace with actual path
+        display_image_with_download(pneumonic_image_path, "Pneumonic Image", "Pneumonic Image")
 
     if normal_download:
-        normal_url = "https://example.com/normal.jpg"  # Replace with actual URL
-        st.image(normal_url, caption="Normal Image", use_column_width=True, format="JPG")
-        st.markdown(f"**[Download Normal Image]({normal_url})**")
+        normal_image_path = "path/to/your/normal_image.jpg"  # Replace with actual path
+        display_image_with_download(normal_image_path, "Normal Image", "Normal Image")
 
     if uploaded_file is not None:
         st.image(uploaded_file, caption="Uploaded Image", use_column_width=True)
