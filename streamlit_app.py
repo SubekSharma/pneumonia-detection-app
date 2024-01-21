@@ -12,7 +12,7 @@ img_size = (224, 224)
 def preprocess_image(img):
     img = image.load_img(img, target_size=img_size)
     img_array = image.img_to_array(img)
-    img_array = img_array / 255.0  
+    img_array = img_array / 255.0  # Normalize pixel values to between 0 and 1
     img_array = np.expand_dims(img_array, axis=0)
     return img_array
 
@@ -27,13 +27,14 @@ def predict_image(img):
 def main():
     st.title("Pneumonia Detection")
 
-    uploaded_file = st.file_uploader("Upload an image...", type="jpg")
+    # Allow user to upload an image
+    uploaded_file = st.file_uploader("Upload a chest X-ray image in JPG format...", type="jpg")
 
     # Example instructions
     st.markdown("""
         Example Instructions:
         - Upload a chest X-ray image in JPG format.
-        - The app will predict whether the image is normal or pneumoniac.
+        - Or, download sample images below and check the predictions.
     """)
 
     # Provide links to download sample images
@@ -42,16 +43,18 @@ def main():
     normal_download = st.button("Download Normal Image")
 
     if pneumonic_download:
-        urllib.request.urlretrieve("https://prod-images-static.radiopaedia.org/images/8589259/debc366fbee881069b1bd4b23a8020_big_gallery.jpg", "pneumonic_image.jpg")
-        st.success("Pneumonic image downloaded successfully!")
+        pneumonic_url = "https://example.com/pneumonic.jpg"  # Replace with actual URL
+        st.image(pneumonic_url, caption="Pneumonic Image", use_column_width=True, format="JPG")
+        st.markdown(f"**[Download Pneumonic Image]({pneumonic_url})**")
 
     if normal_download:
-        urllib.request.urlretrieve("https://www.kenhub.com/thumbor/AkXFsw0396y894sLEMWlcDuChJA=/fit-in/800x1600/filters:watermark(/images/logo_url.png,-10,-10,0):background_color(FFFFFF):format(jpeg)/images/library/10851/eXtmE1V2XgsjZK2JolVQ5g_Border_of_left_atrium.png", "normal_image.jpg")
-        st.success("Normal image downloaded successfully!")
+        normal_url = "https://example.com/normal.jpg"  # Replace with actual URL
+        st.image(normal_url, caption="Normal Image", use_column_width=True, format="JPG")
+        st.markdown(f"**[Download Normal Image]({normal_url})**")
 
     if uploaded_file is not None:
-        st.image(uploaded_file, caption="Uploaded Image.", use_column_width=True)
-        
+        st.image(uploaded_file, caption="Uploaded Image", use_column_width=True)
+
         # Make predictions
         prediction = predict_image(uploaded_file)
 
@@ -60,6 +63,9 @@ def main():
         class_label = "Pneumonia" if prediction > 0.5 else "Normal"
         st.write(f"The image is classified as **{class_label}**.")
 
+        # Display the confidence directly
+        st.write("**Confidence:**")
+        st.write(f"{prediction*100:.2f}%")
 
 
 if __name__ == "__main__":
