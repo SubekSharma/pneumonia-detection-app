@@ -31,18 +31,18 @@ def main():
         st.image(uploaded_file, caption="Uploaded Image.", use_column_width=True)
         
         # Make predictions
-        predictions = predict_image(uploaded_file)
+        prediction = predict_image(uploaded_file)
 
         # Display the results
         st.write("**Prediction:**")
-        if predictions > 0.5:
+        if prediction > 0.5:
             st.write("The image is classified as **Pneumonia**.")
         else:
             st.write("The image is classified as **Normal**.")
 
+        confidence = prediction[0][0] if prediction > 0.5 else 1 - prediction[0][0]
         st.write("**Confidence:**")
-        st.write(f"Pneumonia: {predictions*100:.2f}%")
-        st.write(f"Normal: {predictions*100:.2f}%")
+        st.write(f"{confidence*100:.2f}%")
 
 if __name__ == "__main__":
     main()
