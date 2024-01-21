@@ -19,6 +19,8 @@ def preprocess_image(img):
 def predict_image(img):
     img_array = preprocess_image(img)
     predictions = model.predict(img_array)
+    predictions = np.squeeze(predictions, axis=0)
+
     return predictions
 
 # Streamlit app
@@ -40,7 +42,7 @@ def main():
         else:
             st.write("The image is classified as **Normal**.")
 
-        confidence = prediction[0][0] if prediction > 0.5 else 1 - prediction[0][0]
+        confidence = prediction if prediction > 0.5 else 1 - prediction
         st.write("**Confidence:**")
         st.write(f"{confidence*100:.2f}%")
 
