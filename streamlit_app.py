@@ -2,6 +2,9 @@ import streamlit as st
 import tensorflow as tf
 from tensorflow.keras.preprocessing import image
 import numpy as np
+from PIL import Image
+import base64
+
 
 # Load the pre-trained model
 model = tf.keras.models.load_model('model.h5') 
