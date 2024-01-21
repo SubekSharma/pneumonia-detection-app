@@ -2,6 +2,9 @@ import streamlit as st
 import tensorflow as tf
 from tensorflow.keras.preprocessing import image
 import numpy as np
+from PIL import Image
+import base64
+
 
 # Load the pre-trained model
 model = tf.keras.models.load_model('model.h5') 
@@ -22,6 +25,18 @@ def predict_image(img):
     prediction = model.predict(img_array)
     prediction = np.squeeze(prediction, axis=0)
     return prediction
+
+# Function to display and provide a download link for an image
+def display_image_with_download(image_path, caption, download_text):
+    image = Image.open(image_path)
+    st.image(image, caption=caption, use_column_width=True)
+    
+    # Generate a download link
+    with open(image_path, 'rb') as f:
+        data = f.read()
+        base64_data = base64.b64encode(data).decode('utf-8')
+        href = f'<a href="data:application/octet-stream;base64,{base64_data}" download="{download_text}.jpg">Download {download_text}</a>'
+        st.markdown(href, unsafe_allow_html=True)
 
 # Streamlit app
 def main():
@@ -62,9 +77,7 @@ def main():
         class_label = "Pneumonia" if prediction > 0.5 else "Normal"
         st.write(f"The image is classified as **{class_label}**.")
 
-        # Display the confidence directly
-        st.write("**Confidence:**")
-        st.write(f"{prediction*100:.2f}%")
+    
 
 
 if __name__ == "__main__":
