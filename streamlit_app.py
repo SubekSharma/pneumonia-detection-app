@@ -47,9 +47,9 @@ def main():
         class_label = "Pneumonia" if prediction > 0.5 else "Normal"
         st.write(f"The image is classified as **{class_label}**.")
 
-        # Display the confidence directly
+        # Display the confidence directly  
         st.write("**Confidence:**")
-        st.write(f"{prediction*100:.2f}%")
+        st.write(f"{prediction*100}%")
 
 
 if __name__ == "__main__":
