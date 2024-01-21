@@ -41,8 +41,8 @@ def main():
             st.write("The image is classified as **Normal**.")
 
         st.write("**Confidence:**")
-        st.write(f"Pneumonia: {predictions * 100:.2f}%")
-        st.write(f"Normal: {predictions * 100:.2f}%")
+        st.write(f"Pneumonia: {predictions*100:.2f}%")
+        st.write(f"Normal: {predictions*100:.2f}%")
 
 if __name__ == "__main__":
     main()
