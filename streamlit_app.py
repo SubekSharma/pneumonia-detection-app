@@ -12,7 +12,7 @@ img_size = (224, 224)
 def preprocess_image(img):
     img = image.load_img(img, target_size=img_size)
     img_array = image.img_to_array(img)
-    img_array = img_array / 255.0  # Normalize pixel values to between 0 and 1
+    img_array = img_array / 255.0  
     img_array = np.expand_dims(img_array, axis=0)
     return img_array
 
@@ -33,7 +33,7 @@ def main():
     st.markdown("""
         Example Instructions:
         - Upload a chest X-ray image in JPG format.
-        - The app will predict whether the image is normal or pneumonia.
+        - The app will predict whether the image is normal or pneumoniac.
     """)
 
     if uploaded_file is not None:
