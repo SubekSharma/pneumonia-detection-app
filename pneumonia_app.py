@@ -5,7 +5,7 @@ from tensorflow.keras.applications.mobilenet_v2 import preprocess_input, decode_
 import numpy as np
 
 # Load the pre-trained model
-model = tf.keras.models.load_model('model.h5')  
+model = tf.keras.models.load_model('model.h5')  # Update with your actual model file
 
 # Define the target size for the model
 img_size = (224, 224)
@@ -27,25 +27,26 @@ def predict_image(img):
 # Streamlit app
 def main():
     st.title("Pneumonia Classification App")
-    st.sidebar.title("Upload Image")
 
-    uploaded_file = st.sidebar.file_uploader("Choose an image...", type="jpg")
+    uploaded_file = st.file_uploader("Upload an image...", type="jpg")
 
     if uploaded_file is not None:
-        st.sidebar.image(uploaded_file, caption="Uploaded Image.", use_column_width=True)
-        st.sidebar.write("")
-        st.sidebar.write("Classifying...")
+        st.image(uploaded_file, caption="Uploaded Image.", use_column_width=True)
+        st.write("Classifying...")
 
         # Make predictions
         predictions = predict_image(uploaded_file)
 
         # Display the results
         st.write("**Prediction:**")
-        if predictions > 0.5:
+        if predictions[0][0] > 0.5:
             st.write("The image is classified as **Pneumonia**.")
         else:
             st.write("The image is classified as **Normal**.")
 
+        st.write("**Confidence:**")
+        st.write(f"Pneumonia: {predictions[0][0] * 100:.2f}%")
+        st.write(f"Normal: {predictions[0][1] * 100:.2f}%")
 
 if __name__ == "__main__":
     main()
