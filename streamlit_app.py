@@ -12,7 +12,7 @@ img_size = (224, 224)
 def preprocess_image(img):
     img = image.load_img(img, target_size=img_size)
     img_array = image.img_to_array(img)
-    img_array = img_array / 255
+    img_array = img_array / 255.0  # Normalize pixel values to between 0 and 1
     img_array = np.expand_dims(img_array, axis=0)
     return img_array
 
@@ -21,7 +21,6 @@ def predict_image(img):
     img_array = preprocess_image(img)
     prediction = model.predict(img_array)
     prediction = np.squeeze(prediction, axis=0)
-
     return prediction
 
 # Streamlit app
@@ -45,10 +44,8 @@ def main():
 
         # Display the results
         st.write("**Prediction:**")
-        if prediction > 0.5:
-            st.write("The image is classified as **Pneumonia**.")
-        else:
-            st.write("The image is classified as **Normal**.")
+        class_label = "Pneumonia" if prediction > 0.5 else "Normal"
+        st.write(f"The image is classified as **{class_label}**.")
 
         # Display the confidence directly
         st.write("**Confidence:**")
@@ -57,5 +54,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
