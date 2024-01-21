@@ -4,7 +4,8 @@ from tensorflow.keras.preprocessing import image
 import numpy as np
 
 # Load the pre-trained model
-model = tf.keras.models.load_model('model.h5') 
+model = tf.keras.models.load_model('model.h5')  # Update with your actual model file
+
 # Define the target size for the model
 img_size = (224, 224)
 
@@ -13,39 +14,40 @@ def preprocess_image(img):
     img = image.load_img(img, target_size=img_size)
     img_array = image.img_to_array(img)
     img_array = np.expand_dims(img_array, axis=0)
+    img_array = preprocess_input(img_array)
     return img_array
 
 # Function to make predictions
 def predict_image(img):
     img_array = preprocess_image(img)
-    prediction = model.predict(img_array)
-    prediction = np.squeeze(prediction, axis=0)
-
-    return prediction
+    predictions = model.predict(img_array)
+    return predictions
 
 # Streamlit app
 def main():
-    st.title("Pneumonia Detection")
+    st.title("Pneumonia Classification App")
+    st.sidebar.title("Upload Image")
 
-    uploaded_file = st.file_uploader("Upload an image...", type="jpg")
+    uploaded_file = st.sidebar.file_uploader("Choose an image...", type="jpg")
 
     if uploaded_file is not None:
-        st.image(uploaded_file, caption="Uploaded Image.", use_column_width=True)
-        
+        st.sidebar.image(uploaded_file, caption="Uploaded Image.", use_column_width=True)
+        st.sidebar.write("")
+        st.sidebar.write("Classifying...")
+
         # Make predictions
-        prediction = predict_image(uploaded_file)
+        predictions = predict_image(uploaded_file)
 
         # Display the results
-        st.write(prediction)
         st.write("**Prediction:**")
-        if prediction > 0.5:
+        if predictions[0][0] > 0.5:
             st.write("The image is classified as **Pneumonia**.")
         else:
             st.write("The image is classified as **Normal**.")
 
-        confidence = prediction if prediction > 0.5 else 1 - prediction
         st.write("**Confidence:**")
-        st.write(f"{confidence*100:.2f}%")
+        st.write(f"Pneumonia: {predictions[0][0] * 100:.2f}%")
+        st.write(f"Normal: {predictions[0][1] * 100:.2f}%")
 
 if __name__ == "__main__":
     main()
