@@ -47,5 +47,5 @@ def main():
         st.write(f"Pneumonia: {predictions * 100:.2f}%")
         st.write(f"Normal: {predictions * 100:.2f}%")
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()
