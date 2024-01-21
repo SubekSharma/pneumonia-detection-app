@@ -37,15 +37,15 @@ def main():
 
         # Display the results
         st.write(prediction)
-        # st.write("**Prediction:**")
-        # if prediction > 0.8:
-        #     st.write("The image is classified as **Pneumonia**.")
-        # else:
-        #     st.write("The image is classified as **Normal**.")
+        st.write("**Prediction:**")
+        if prediction > 0.5:
+            st.write("The image is classified as **Pneumonia**.")
+        else:
+            st.write("The image is classified as **Normal**.")
 
-        # confidence = prediction if prediction > 0.5 else 1 - prediction
-        # st.write("**Confidence:**")
-        # st.write(f"{confidence*100:.2f}%")
+        confidence = prediction if prediction > 0.5 else 1 - prediction
+        st.write("**Confidence:**")
+        st.write(f"{confidence*100:.2f}%")
 
 if __name__ == "__main__":
     main()
