@@ -40,14 +40,14 @@ def main():
 
         # Display the results
         st.write("**Prediction:**")
-        if predictions[0][0] > 0.5:
+        if predictions > 0.5:
             st.write("The image is classified as **Pneumonia**.")
         else:
             st.write("The image is classified as **Normal**.")
 
         st.write("**Confidence:**")
-        st.write(f"Pneumonia: {predictions[0][0] * 100:.2f}%")
-        st.write(f"Normal: {predictions[0][1] * 100:.2f}%")
+        st.write(f"Pneumonia: {predictions * 100:.2f}%")
+        st.write(f"Normal: {predictions * 100:.2f}%")
 
 if __name__ == "__main__":
     main()
