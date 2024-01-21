@@ -1,37 +1,54 @@
 import streamlit as st
 import tensorflow as tf
+from tensorflow.keras.preprocessing import image
+from tensorflow.keras.applications.mobilenet_v2 import preprocess_input, decode_predictions
 import numpy as np
-import cv2
 
-model = tf.keras.models.load_model('model.h5')
+# Load the pre-trained model
+model = tf.keras.models.load_model('model.h5')  # Update with your actual model file
 
-def preprocess_image(file):
-    img = cv2.imdecode(np.frombuffer(file.read(), np.uint8), cv2.IMREAD_COLOR)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    img = cv2.resize(img, (224, 224))
-    img = img / 255
-    img = np.expand_dims(img, axis=0)
-    return img
+# Define the target size for the model
+img_size = (224, 224)
 
-def get_class_label(predictions):
-    class_index = 1 if predictions > 0.5 else 0
-    class_labels = ["Normal Chest", "Pneumonic Chest"]
-    return class_labels[class_index]
+# Function to preprocess the image
+def preprocess_image(img):
+    img = image.load_img(img, target_size=img_size)
+    img_array = image.img_to_array(img)
+    img_array = np.expand_dims(img_array, axis=0)
+    img_array = preprocess_input(img_array)
+    return img_array
 
+# Function to make predictions
+def predict_image(img):
+    img_array = preprocess_image(img)
+    predictions = model.predict(img_array)
+    return predictions
+
+# Streamlit app
 def main():
-    st.set_page_config(page_title="Pneumonia Prediction", page_icon="👨‍⚕️", layout="centered")
+    st.title("Pneumonia Classification App")
+    st.sidebar.title("Upload Image")
 
-    st.title("Pneumonia Prediction")
-
-    uploaded_file = st.file_uploader("Choose an image...", type="jpg")
+    uploaded_file = st.sidebar.file_uploader("Choose an image...", type="jpg")
 
     if uploaded_file is not None:
-        image = preprocess_image(uploaded_file)
-        predictions = model.predict(image)
-        class_label = get_class_label(predictions)
+        st.sidebar.image(uploaded_file, caption="Uploaded Image.", use_column_width=True)
+        st.sidebar.write("")
+        st.sidebar.write("Classifying...")
 
-        st.image(uploaded_file, caption="Uploaded Image.", use_column_width=True)
-        st.write("Prediction:", class_label)
+        # Make predictions
+        predictions = predict_image(uploaded_file)
+
+        # Display the results
+        st.write("**Prediction:**")
+        if predictions[0][0] > 0.5:
+            st.write("The image is classified as **Pneumonia**.")
+        else:
+            st.write("The image is classified as **Normal**.")
+
+        st.write("**Confidence:**")
+        st.write(f"Pneumonia: {predictions[0][0] * 100:.2f}%")
+        st.write(f"Normal: {predictions[0][1] * 100:.2f}%")
 
 if __name__ == "__main__":
     main()
