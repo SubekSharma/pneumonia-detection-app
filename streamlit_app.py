@@ -36,6 +36,19 @@ def main():
         - The app will predict whether the image is normal or pneumoniac.
     """)
 
+    # Provide links to download sample images
+    st.write("**Download Sample Images:**")
+    pneumonic_download = st.button("Download Pneumonic Image")
+    normal_download = st.button("Download Normal Image")
+
+    if pneumonic_download:
+        urllib.request.urlretrieve("https://prod-images-static.radiopaedia.org/images/8589259/debc366fbee881069b1bd4b23a8020_big_gallery.jpg", "pneumonic_image.jpg")
+        st.success("Pneumonic image downloaded successfully!")
+
+    if normal_download:
+        urllib.request.urlretrieve("https://www.kenhub.com/thumbor/AkXFsw0396y894sLEMWlcDuChJA=/fit-in/800x1600/filters:watermark(/images/logo_url.png,-10,-10,0):background_color(FFFFFF):format(jpeg)/images/library/10851/eXtmE1V2XgsjZK2JolVQ5g_Border_of_left_atrium.png", "normal_image.jpg")
+        st.success("Normal image downloaded successfully!")
+
     if uploaded_file is not None:
         st.image(uploaded_file, caption="Uploaded Image.", use_column_width=True)
         
