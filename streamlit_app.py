@@ -67,6 +67,15 @@ def main():
         class_label = "Pneumonia" if prediction > 0.5 else "Normal"
         st.write(f"The image is classified as **{class_label}**.")
 
+
+    hide_streamlit_style = """
+                <style>
+                #MainMenu {visibility: hidden;}
+                footer {visibility: hidden;}
+                </style>
+                """
+    st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
     
 
 
