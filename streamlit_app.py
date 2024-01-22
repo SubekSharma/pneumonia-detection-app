@@ -70,8 +70,6 @@ def display_image_with_download(image_path, caption, download_text):
 
 def main():
     st.title("Pneumonia Detection")
-    st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
-
 
     uploaded_file = st.file_uploader("Upload a chest X-ray image in JPG format...", type="jpg")
 
