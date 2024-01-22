@@ -6,10 +6,7 @@ from PIL import Image
 import base64
 
 hide_streamlit_style = """
-                <style>
-                [data-testid="stToolbar"] {visibility: hidden !important;}
-                footer {visibility: hidden !important;}
-                
+                <style>                
                 div[data-testid="stToolbar"] {
                 visibility: hidden;
                 height: 0%;
