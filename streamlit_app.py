@@ -5,6 +5,12 @@ import numpy as np
 from PIL import Image
 import base64
 
+hide_streamlit_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            </style>
+            """
 
 #Load the pre-trained model
 model = tf.keras.models.load_model('model.h5') 
@@ -34,16 +40,12 @@ def display_image_with_download(image_path, caption, download_text):
         href = f'<a href="data:application/octet-stream;base64,{base64_data}" download="{download_text}.jpg">Download {download_text}</a>'
         st.markdown(href, unsafe_allow_html=True)
 
-hide_streamlit_style = """
-            <style>
-            #MainMenu {visibility: hidden;}
-            footer {visibility: hidden;}
-            </style>
-            """
-st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
+
 
 def main():
     st.title("Pneumonia Detection")
+    st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
+
 
     uploaded_file = st.file_uploader("Upload a chest X-ray image in JPG format...", type="jpg")
 
