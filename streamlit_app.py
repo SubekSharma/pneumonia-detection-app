@@ -7,6 +7,9 @@ import base64
 
 hide_streamlit_style = """
                 <style>
+                [data-testid="stToolbar"] {visibility: hidden !important;}
+                footer {visibility: hidden !important;}
+                
                 div[data-testid="stToolbar"] {
                 visibility: hidden;
                 height: 0%;
