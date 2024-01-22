@@ -34,6 +34,14 @@ def display_image_with_download(image_path, caption, download_text):
         href = f'<a href="data:application/octet-stream;base64,{base64_data}" download="{download_text}.jpg">Download {download_text}</a>'
         st.markdown(href, unsafe_allow_html=True)
 
+hide_streamlit_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
+
 def main():
     st.title("Pneumonia Detection")
 
@@ -65,18 +73,7 @@ def main():
 
         st.write("**Prediction:**")
         class_label = "Pneumonia" if prediction > 0.5 else "Normal"
-        st.write(f"The image is classified as **{class_label}**.")
-
-
-    hide_streamlit_style = """
-                <style>
-                #MainMenu {visibility: hidden;}
-                footer {visibility: hidden;}
-                </style>
-                """
-    st.markdown(hide_streamlit_style, unsafe_allow_html=True)
-
-    
+        st.write(f"The image is classified as **{class_label}**.")    
 
 
 if __name__ == "__main__":
