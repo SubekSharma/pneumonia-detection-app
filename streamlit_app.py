@@ -9,6 +9,7 @@ hide_streamlit_style = """
             <style>
             #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
+            header {visibility: hidden;}
             </style>
             """
 
@@ -19,7 +20,7 @@ img_size = (224, 224)
 def preprocess_image(img):
     img = image.load_img(img, target_size=img_size)
     img_array = image.img_to_array(img)
-    img_array = img_array / 255.0  # Normalize pixel values to between 0 and 1
+    img_array = img_array / 255.0  
     img_array = np.expand_dims(img_array, axis=0)
     return img_array
 
