@@ -1,5 +1,3 @@
-Here is a detailed README template for your project:
-
 ---
 
 # Pneumonia Detection using Deep Learning
@@ -81,11 +79,9 @@ You can test the application using the provided sample images:
 - Other dependencies listed in `requirements.txt`
 
 ## Dataset
-The model was trained on a dataset of chest X-ray images. The training dataset and further details can be found [here](https://www.kaggle.com/datasets).
+The model was trained on a dataset of chest X-ray images from kaggle.
 
 ## Acknowledgements
 This project was inspired by the need for efficient and accurate tools to assist in pneumonia diagnosis. Special thanks to the creators of the dataset and open-source tools that made this project possible.
 
 --- 
-
-Let me know if you'd like me to adjust or add anything!
